@@ -12,6 +12,25 @@ This document reports the testing execution and validation results for all Agile
 
 ---
 
+## ⚙️ How to Run the Automated QA Tests
+
+You can run the test suite yourself from the terminal to verify the portal logic:
+
+1. Open your terminal and navigate to the project `src` folder:
+   ```bash
+   cd "Marathon Runner Portal/src"
+   ```
+2. Compile the test suite class:
+   ```bash
+   javac TestPortal.java
+   ```
+3. Execute the tests:
+   ```bash
+   java TestPortal
+   ```
+
+---
+
 ## 🧪 Detailed Test Results
 
 Below is the verification trace showing each test ID, mapped User Story (US), target rule, and final pass status:
