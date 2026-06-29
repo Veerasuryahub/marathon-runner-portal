@@ -43,6 +43,14 @@ javac MarathonPortal.java
 java MarathonPortal
 ```
 
+#### **On Eclipse IDE:**
+1. Open Eclipse and select your workspace.
+2. Click **File ➔ New ➔ Java Project**. Name the project `Marathon Runner Portal`.
+3. Right-click the `src` folder in the Project Explorer and select **New ➔ Class**.
+4. Name the class `MarathonPortal` (leave the package field blank).
+5. Delete any auto-generated code, copy the entire code from `MarathonPortal.java`, and paste it into the editor.
+6. Click the green **Run** button on the toolbar (or press `Ctrl + F11`) to launch the application. Interact with the application via the Eclipse **Console** view at the bottom.
+
 ---
 
 ## 👥 Default Accounts (Pre-Loaded Seed Data)
