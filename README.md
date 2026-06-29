@@ -75,3 +75,19 @@ The following features cannot be implemented in a simple console-based terminal 
 - **Database Persistence:** The app uses in-memory collections. All modifications are reset when you exit.
 - **Rich Graphics/UI:** All menus are presented using clean ASCII borders.
 - **PDF/Excel Export:** Reports are exported as standard `.csv` spreadsheets (saved under `src/exports/`), avoiding external heavy PDF or Excel libraries.
+
+---
+
+## 🧪 Running Automated Unit Tests
+
+The repository includes an automated unit test suite `TestPortal.java` that programmatically asserts all business rules and user stories (registration formats, double booking, lockout durations, training logs, late signup point reductions, forum keyword filters, etc.).
+
+### Run the tests:
+```bash
+# Compile the test suite
+javac TestPortal.java
+
+# Run the test suite (enabling assertions with the -ea flag)
+java -ea TestPortal
+```
+
