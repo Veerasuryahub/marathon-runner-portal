@@ -238,3 +238,96 @@ This project is a dedicated **Java Console Application**. Features that require 
 - **Browser Cookies/Session Timers:** The terminal app stays active until the user selects option 0, rather than expiring cookies.
 - **Scheduled Background Jobs:** Automatic post deletion and race closures are triggered manually by admins through menu selections, avoiding background thread requirements.
 - **PDF & Excel Libraries:** Reports are generated in `.csv` format (universally openable by Excel), which removes the need for large external libraries like Apache POI or iText.
+
+---
+
+# 🖥️ Console User Interface Layouts
+
+Here is how the application layout and console printouts look when executing various workflows:
+
+### 1. Main Welcome & Authentication Menu
+```text
+  ╔══════════════════════════════════════════════════════════╗
+  ║        MARATHON RUNNER PORTAL  —  v1.0.0                ║
+  ║        Java Console Application                         ║
+  ╠══════════════════════════════════════════════════════════╣
+  ║  Default Accounts (ready to use):                       ║
+  ║  Admin  → admin@gmail.com    password: Admin@Pass123     ║
+  ║  Runner → john@gmail.com     password: Runner@Pass123    ║
+  ╚══════════════════════════════════════════════════════════╝
+
+  ────────────────────────────────────────────────────────────
+  MAIN MENU
+  ────────────────────────────────────────────────────────────
+  [1] Register as New Runner
+  [2] Login
+  [0] Exit
+  ────────────────────────────────────────────────────────────
+  > Enter choice [0-2]:
+```
+
+### 2. Runner Menu Layout
+```text
+  ────────────────────────────────────────────────────────────
+  RUNNER MENU — Welcome, john_runner!
+  Points: 500 pts  |  Status: VERIFIED
+  ────────────────────────────────────────────────────────────
+  [1]  View Profile & Completed Races
+  [2]  View Available Races
+  [3]  Register for a Race
+  [4]  View My Registrations
+  [5]  Add Training Log
+  [6]  View Training Dashboard
+  [7]  Edit a Training Log
+  [8]  View Forum Posts
+  [9]  Post in Forum
+  [10] Export Training Logs to CSV
+  [0]  Logout
+  ────────────────────────────────────────────────────────────
+  > Enter choice [0-10]:
+```
+
+### 3. Available Races Registry View
+```text
+  ────────────────────────────────────────────────────────────
+  AVAILABLE RACES
+  ────────────────────────────────────────────────────────────
+  ID       Name                       Location     Date         Distance        Spots   Status
+  ────────────────────────────────────────────────────────────
+  RACE-104 Pune Fun Run 5K            Pune         20-07-2026   5K              200     Open
+  RACE-101 Mumbai Marathon 2026       Mumbai       30-07-2026   Full Marathon   500     Open
+  RACE-102 Delhi 10K Challenge        Delhi        14-08-2026   10K             300     Open
+  RACE-103 Bangalore Half Marathon    Bangalore    29-08-2026   Half Marathon   400     Open
+```
+
+### 4. Runner Training Analytics Dashboard
+```text
+  ────────────────────────────────────────────────────────────
+  TRAINING DASHBOARD
+  ────────────────────────────────────────────────────────────
+  Total Workouts    : 7
+  Total Distance    : 84.00 km
+  Average Distance  : 12.00 km
+  Best Distance Run : 15.00 km
+  Average Pace      : 5:46 min/km
+  Fastest Pace Run  : 5:11 min/km
+  ────────────────────────────────────────────────────────────
+```
+
+### 5. Admin Dashboard Menu
+```text
+  ────────────────────────────────────────────────────────────
+  ADMIN MENU — Welcome, admin!
+  ────────────────────────────────────────────────────────────
+  [1] Manage Users (Verify Accounts)
+  [2] Manage Races (Add / Edit / Deactivate)
+  [3] Moderate Forum (Approve / Reject)
+  [4] Analytics Dashboard
+  [5] Export Reports to CSV
+  [6] View Security Log
+  [7] Mark Race Completion
+  [0] Logout
+  ────────────────────────────────────────────────────────────
+  > Enter choice [0-7]:
+```
+
