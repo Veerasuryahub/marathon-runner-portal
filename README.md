@@ -1,252 +1,244 @@
 # Marathon Runner Portal
 
-The Marathon Runner Portal is a Java Console Application designed to assist runners in registering for events, maintaining logs of training workouts, checking metrics dashboards, participating in a moderated forum board, and managing files/statistics. Administrators have dedicated tools to configure races, manage user registrations, moderate forum boards, audit security records, and export CSV spreadsheets.
-
-The entire application runs in the console terminal (no database, no Spring Boot, no external dependencies required) and is fully contained within [src/MarathonPortal.java](file:///c:/Users/USER/OneDrive/Desktop/Marathon%20Runner%20Portal/src/MarathonPortal.java).
+**Sprint 1 — Core Java Console Application**  
+**Technology:** Core Java 17 · No Database · No Spring Boot · No External Libraries
 
 ---
 
-## 🚀 How to Run the Project (Step-by-Step)
+## Project Overview
 
-Follow these instructions to compile and launch the application on any system:
+The **Marathon Runner Portal** is a Java Console Application that allows runners to register for marathon events, maintain training logs, view race history, and interact with a community forum. Administrators can manage races, verify accounts, approve forum posts, and generate CSV reports.
 
-### 1. Prerequisites
-- **Java Development Kit (JDK) 17 or higher** installed.
-- Verify your Java installation:
-  ```bash
-  java -version
-  ```
+All data is stored **in-memory** using Java Collections (`ArrayList`, `HashMap`, `HashSet`). No database, no file persistence beyond CSV exports.
 
-### 2. Execution Commands
+---
 
-#### **On Windows (PowerShell or Command Prompt):**
+## How to Run
+
+### Prerequisites
+- Java Development Kit (JDK) 11 or higher installed
+- Verify installation: `java -version` and `javac -version`
+
+### Step 1: Get the code
+Copy `src/MarathonPortal.java` to any folder on your computer.
+
+### Step 2: Compile
+
+**Windows (PowerShell / Command Prompt):**
 ```powershell
-# Step 1: Navigate to the source folder
 cd "Marathon Runner Portal/src"
-
-# Step 2: Compile the single Java file
 javac MarathonPortal.java
-
-# Step 3: Run the Application
 java MarathonPortal
 ```
 
-#### **On macOS / Linux Terminal:**
+**macOS / Linux:**
 ```bash
-# Step 1: Navigate to the source folder
 cd "Marathon Runner Portal/src"
-
-# Step 2: Compile the Java file
 javac MarathonPortal.java
-
-# Step 3: Run the application
 java MarathonPortal
 ```
 
-#### **On Eclipse IDE:**
-1. Open Eclipse and select your workspace.
-2. Click **File ➔ New ➔ Java Project**. Name the project `Marathon Runner Portal`.
-3. Right-click the `src` folder in the Project Explorer and select **New ➔ Class**.
-4. Name the class `MarathonPortal` (leave the package field blank).
-5. Delete any auto-generated code, copy the entire code from `MarathonPortal.java`, and paste it into the editor.
-6. Click the green **Run** button on the toolbar (or press `Ctrl + F11`) to launch the application. Interact with the application via the Eclipse **Console** view at the bottom.
+**Eclipse IDE:**
+1. File → New → Java Project. Name: `Marathon Runner Portal`.
+2. Right-click `src` → New → Class. Name: `MarathonPortal`. Leave package blank.
+3. Delete auto-generated code. Paste the entire contents of `MarathonPortal.java`.
+4. Click the green **Run** button (or `Ctrl + F11`).
+5. Interact via the Eclipse **Console** panel at the bottom.
+
+### Default Login Credentials
+
+| Role | Email | Password |
+| :--- | :--- | :--- |
+| Admin | admin@gmail.com | Admin@Pass123 |
+| Runner | john@gmail.com | Runner@Pass123 |
 
 ---
 
-## 👥 Default Accounts (Pre-Loaded Seed Data)
+## Project Architecture
 
-Use these credentials to log in and test all system behaviors instantly without needing to register first:
-
-| Role | Email Address | Password |
-|---|---|---|
-| **System Administrator** | `admin@gmail.com` | `Admin@Pass123` |
-| **Portal Runner** | `john@gmail.com` | `Runner@Pass123` |
-
----
-
-# 📋 Project Requirement Document (PRD)
-
-Below are the details of the project requirements and user stories implemented in this application:
-
-## User Stories
-
-### US01 - User Registration
-- **Description:** A new runner can create a login account.
-- **Console Rules & Checks:**
-  - Email address must be unique (checked in constant time using `HashSet`).
-  - Passwords must be at least 12 characters and contain at least one uppercase letter, one digit, and one special character.
-  - Email domain must end with `@gmail.com` or `@yahoo.com`.
-  - Runners must be between 18 and 40 years old.
-  - Account status starts as `PENDING` (runners cannot log in until an admin verifies their account via the verification panel).
-  - Creation dates are stored in the system.
-  - Verified runners automatically receive 500 **Marathon Points** on registration.
-
-### US02 - Login & Role-Based Dashboard
-- **Description:** Users log in to access specific menus.
-- **Console Rules & Checks:**
-  - Multiple failed passwords trigger account lockouts. On the 5th failed login attempt, the account is locked for 30 minutes.
-  - Runners view race registers, workout logs, training stats, and community boards.
-  - Admins view verification panels, race configuration panels, forum reviews, security logs, and exports.
-
-### US03 - Race Listing & Filtering
-- **Description:** Runners search for upcoming events.
-- **Console Rules & Checks:**
-  - Hides races that are inactive or starting within 48 hours.
-  - Hides races that the runner is already registered for.
-  - Supports filters by location and distance (5K, 10K, Half Marathon, Full Marathon).
-
-### US04 - Race Registration
-- **Description:** Runners sign up for active races.
-- **Console Rules & Checks:**
-  - Runner must have logged at least 5 training sessions in the last 30 days.
-  - Cannot register for two different races scheduled on the same calendar day.
-  - Displays last modified timestamps if an admin updated the race details.
-
-### US05 - Training Log
-- **Description:** Runners log their daily training runs.
-- **Console Rules & Checks:**
-  - Date of training cannot be in the future.
-  - Distance must be between 1 km and 100 km (protects against typings).
-  - Prevents duplicate log entries (same date + same distance).
-  - Lockout edits on logs older than 6 months.
-  - Displays recency display indicators (e.g. *"Logged 3 days ago"*, *"Logged today"*).
-  - Appends an `[EDITED]` badge to logs that have been modified.
-
-### US06 - Training Progress Dashboard
-- **Description:** Runners monitor workouts.
-- **Console Rules & Checks:**
-  - Displays total workouts, cumulative km, average pace (formatted as `minutes:seconds min/km`), best distance, and fastest pace.
-  - Sorts workouts by date, distance, and pace.
-  - Exports training logs to local CSV files.
-
-### US07 - Forum
-- **Description:** Runners post in community boards.
-- **Console Rules & Checks:**
-  - Scans content against inappropriate words (spam, scam, fake, fraud, hack, abuse, illegal). Flagged posts are held from publication.
-  - Admins must approve posts before they become visible to other runners.
-  - If a runner gets 3 flagged posts, they are automatically forum banned.
-
-### US08 - User Profile
-- **Description:** Runners view past race histories.
-- **Console Rules & Checks:**
-  - Displays completed races only.
-  - Displays personal best times grouped by distance category.
-  - Runners can update age and phone but cannot modify email, username, or user ID.
-
-### US09 - Admin Race Management
-- **Description:** Admins manage races.
-- **Console Rules & Checks:**
-  - Prevents deactivation or deletion of races if runners have already registered.
-  - Distances must match: 5K, 10K, Half Marathon, Full Marathon.
-
-### US10 - Admin Analytics Dashboard
-- **Description:** Admins view system-wide metrics.
-- **Console Rules & Checks:**
-  - Tracks total user roles, verified count, pending count, active races, signup slots filled, forum queue size, and logs.
-  - Exports data tables to CSV reports.
-
-### US11 - User Authentication (Failed attempts audit log)
-- Writes all password errors and unauthorized login attempts to `logs/security.log`.
-
-### US12 - Race CRUD Validation
-- New race dates must be at least 7 days in the future.
-- Race names must be unique within the same year.
-- Admins cannot edit race details if it starts in less than 24 hours.
-
-### US13 - Race Registration Validation
-- Limits signups based on max capacity.
-- Deducts 50 marathon points for late registrations (signing up within 7 days of the race date).
-
-### US14 - Training Log Validation
-- Rejects pace values faster than 3 min/km or slower than 10 min/km.
-- Auto-flags training workouts if the logged distance is $\ge 10\times$ the runner's running average.
-
-### US15 - Forum Moderation
-- Forum posts containing URLs/hyperlinks require manual admin approval before publication.
-- Deletes posts older than 1 year.
-
----
-
-# 💾 Database Schema (In-Memory collections)
-
-The application models are structured in Java using memory-safe objects:
-
-```java
-// Models.User
-String id;
-String username;
-String email;
-String password;
-String phone;
-String role;
-String status;
-int age;
-int marathonPoints;
-int flaggedPosts;
-boolean forumBanned;
-LocalDateTime createdAt;
-
-// Models.Race
-String id;
-String name;
-String location;
-String distance;
-String status;
-LocalDateTime raceDate;
-int maxCapacity;
-int registrations;
-
-// Models.TrainingLog
-String id;
-String runnerId;
-LocalDate date;
-double distanceKm;
-int durationMinutes;
-double paceMinPerKm;
-boolean flagged;
-LocalDateTime modifiedAt;
-
-// Models.ForumPost
-String id;
-String authorId;
-String authorName;
-String title;
-String content;
-String status;
-String flagReason;
-boolean containsLink;
-
-// Models.Registration
-String id;
-String runnerId;
-String raceId;
-String status;
-boolean latePenalty;
-int completionMinutes;
+```
+MarathonPortal.java (1505 lines, 7 sections)
+│
+├── Section 1: Data Entities
+│   └── User, Race, TrainingLog, ForumPost, Registration
+│
+├── Section 2: In-Memory Database
+│   └── ArrayList, HashMap, HashSet collections
+│
+├── Section 3: Business Logic Managers
+│   └── UserMgr, RaceMgr, RegMgr, TrainingMgr, ForumMgr, AnalyticsMgr
+│
+├── Section 4: Main UI Menus
+│   └── showMainMenu, handleRegister, handleLogin
+│
+├── Section 5: Runner Features (10 menu items)
+│   └── viewProfile, viewRaces, registerRace, addTraining,
+│       viewTrainingDashboard, editTraining, viewForum,
+│       postForum, exportTraining, viewRegistrations
+│
+├── Section 6: Admin Features (7 menu items)
+│   └── adminUsers, adminRaces, adminForum, adminAnalytics,
+│       adminExports, adminSecurityLog, adminMarkCompleted
+│
+└── Section 7: Helper IO Functions
+    └── readStr, readInt, readDouble, ok, err, warn, pause
 ```
 
 ---
 
-# 💻 Console Application Scope & Limitations
+## Program Flow
 
-This project is a dedicated **Java Console Application**. Features that require web architecture or external server configurations are not coded in the source files, but are documented below as limitations of a terminal application:
-
-### 🚫 Features Not Implemented (Web-Only)
-- **Database (MySQL/MongoDB):** The data is held in-memory within Java Collections. All registrations and logs reset when the terminal process exits.
-- **REST APIs & JWT:** User session tracking is managed locally via session classes instead of JWT tokens.
-- **Email Service (SMTP):** Runner account verification is performed manually by system admins via the user manager menu instead of automated activation emails.
-- **Browser Cookies/Session Timers:** The terminal app stays active until the user selects option 0, rather than expiring cookies.
-- **Scheduled Background Jobs:** Automatic post deletion and race closures are triggered manually by admins through menu selections, avoiding background thread requirements.
-- **PDF & Excel Libraries:** Reports are generated in `.csv` format (universally openable by Excel), which removes the need for large external libraries like Apache POI or iText.
+```
+main()
+  └── loadSeedData() → printBanner() → while(true) → showMainMenu()
+          │
+          ├── [1] Register  → UserMgr.register() → PENDING status
+          ├── [2] Login     → UserMgr.login()
+          │         ├── ADMIN  → showAdminMenu() [7 options]
+          │         └── RUNNER → showRunnerMenu() [10 options]
+          └── [0] Exit
+```
 
 ---
 
-# 🖥️ Console User Interface Layouts
+## Folder Structure
 
-Here is how the application layout and console printouts look when executing various workflows:
+```
+marathon-runner-portal/
+├── src/
+│   ├── MarathonPortal.java        ← Main application (single file)
+│   └── TestPortal.java            ← Automated QA test suite (14 tests)
+├── exports/                       ← CSV exports saved here
+├── logs/                          ← security.log written here
+├── README.md                      ← This file
+├── PROGRAM_STRUCTURE.md           ← Detailed code structure guide
+├── ARCHITECTURE.md                ← Visual architecture diagrams
+├── USER_STORY_MAPPING.md          ← Maps US01–US20 to code methods
+├── CODE_EXPLANATION.md            ← Method-by-method code walkthrough
+├── TEST_REPORT.md                 ← Full QA test results
+├── DEFECT_ANALYSIS.md             ← Defect review and analysis
+├── REVIEW_PREPARATION.md          ← Sprint 1 interview Q&A guide
+├── PROJECT_FLOW.md                ← Step-by-step program flows
+└── .gitignore
+```
 
-### 1. Main Welcome & Authentication Menu
-```text
+---
+
+## User Stories Coverage
+
+| # | User Story | Status | Key Method |
+| :---: | :--- | :---: | :--- |
+| US01 | User Registration | ✅ Done | `UserMgr.register()` |
+| US02 | Login & Role-Based Dashboard | ✅ Done | `UserMgr.login()` |
+| US03 | Race Listing & Filtering | ✅ Done | `viewRaces()` |
+| US04 | Race Registration | ✅ Done | `RegMgr.register()` |
+| US05 | Training Log | ✅ Done | `TrainingMgr.addLog()` |
+| US06 | Training Progress Dashboard | ✅ Done | `viewTrainingDashboard()` |
+| US07 | Forum | ✅ Done | `ForumMgr.submit()` |
+| US08 | User Profile | ✅ Done | `viewProfile()` |
+| US09 | Admin Race Management | ✅ Done | `adminRaces()`, `RaceMgr.*` |
+| US10 | Admin Analytics | ✅ Done | `adminAnalytics()` |
+| US11 | User Auth Audit Log | ✅ Done | `logFailedAttempt()` |
+| US12 | Race CRUD Validation | ✅ Done | `RaceMgr.create/edit()` |
+| US13 | Race Registration Validation | ✅ Done | `RegMgr.register()` |
+| US14 | Training Log Validation | ✅ Done | `TrainingMgr.addLog()` |
+| US15 | Forum Moderation | ✅ Done | `adminForum()`, `ForumMgr.cleanup()` |
+| US16 | Email Verification | ⚠️ Adapted | Admin manual verify — see note |
+| US17 | Analytics | ✅ Done | `adminAnalytics()` |
+| US18 | Registration Scheduler | ⚠️ Adapted | Auto-close 48h — see note |
+| US19 | Role-Based Authorization | ✅ Done | Role check in `handleLogin()` |
+| US20 | Data Export | ✅ Done | `AnalyticsMgr.*` |
+
+---
+
+## Features Not Implemented (Web-Only Scope)
+
+These features require web infrastructure and are outside the scope of a Core Java Console Application:
+
+| Feature | Reason | Console Alternative |
+| :--- | :--- | :--- |
+| Database (MySQL/MongoDB) | Needs JDBC, external server | In-memory ArrayList + HashMap |
+| REST APIs | Needs Servlet/Spring | Direct method calls |
+| JWT Authentication | Needs HTTP headers/sessions | `currentUser` variable as session |
+| HTTP Status Codes | Needs HTTP protocol | Exception messages shown on console |
+| Email Service (SMTP) | Needs external mail server | Admin manually verifies accounts |
+| Browser Session Timers | Needs cookies | Login/logout menu options |
+| Scheduled Background Jobs | Needs threads/cron | Admin triggers cleanup manually |
+| HTML/CSS User Interface | Needs browser | ASCII console menus |
+| PDF Export | Needs Apache POI / iText | CSV files (Excel-compatible) |
+| API Authorization (OAuth) | Needs HTTP layer | Role-based menu routing |
+
+---
+
+## OOP Concepts Used
+
+| Concept | Example |
+| :--- | :--- |
+| **Encapsulation** | `User` class groups all fields; `UserMgr` encapsulates all login/register logic |
+| **Abstraction** | Menu calls `UserMgr.register()` without knowing its validation internals |
+| **Polymorphism** | Lambda comparators in training sort — same method, different behavior |
+| **Static Members** | All collections are `static` — shared across all methods |
+| **Inner Classes** | 5 entities + 6 managers as inner static classes |
+
+---
+
+## Collections Used
+
+| Collection | Type | Purpose | Time Complexity |
+| :--- | :--- | :--- | :--- |
+| `users` | `ArrayList<User>` | All registered users | Add: O(1), Search: O(n) |
+| `races` | `ArrayList<Race>` | All race events | Add: O(1), Search: O(n) |
+| `trainingLogs` | `ArrayList<TrainingLog>` | All workout records | Add: O(1), Filter: O(n) |
+| `forumPosts` | `ArrayList<ForumPost>` | All forum posts | Add: O(1), Filter: O(n) |
+| `registrations` | `ArrayList<Registration>` | All race signups | Add: O(1), Filter: O(n) |
+| `userByEmail` | `HashMap<String, User>` | Fast email-to-user lookup | O(1) average |
+| `usedEmails` | `HashSet<String>` | Duplicate email prevention | O(1) average |
+
+---
+
+## Validation Rules Summary
+
+| Rule | Value |
+| :--- | :--- |
+| Password minimum length | 12 characters |
+| Password must contain | Uppercase + Digit + Special character |
+| Allowed email domains | @gmail.com, @yahoo.com |
+| Runner age range | 18 to 40 years |
+| Phone format | Exactly 10 digits |
+| Training distance | 1.0 to 100.0 km |
+| Training pace | 3.0 to 10.0 min/km |
+| Training edit lock | Logs older than 6 months |
+| Race future requirement | At least 7 days from today |
+| Race edit block | Within 24 hours of start |
+| Race registration cutoff | 48 hours before race |
+| Late registration penalty | −50 marathon points if within 7 days |
+| Double booking | Same calendar date blocked |
+| Login lockout threshold | 5 failed attempts |
+| Lockout duration | 30 minutes |
+| Forum post ban threshold | 3 flagged posts |
+| Forum post minimum | Title ≥5 chars, Content ≥10 chars |
+| Race eligibility | ≥5 training logs in last 30 days |
+
+---
+
+## Testing Summary
+
+| Test Suite | Total Tests | Passed | Failed |
+| :--- | :---: | :---: | :---: |
+| Automated (TestPortal.java) | 14 | 14 | 0 |
+
+Run the tests:
+```bash
+cd "Marathon Runner Portal/src"
+javac TestPortal.java
+java TestPortal
+```
+
+---
+
+## Sample Console Output
+
+```
   ╔══════════════════════════════════════════════════════════╗
   ║        MARATHON RUNNER PORTAL  —  v1.0.0                ║
   ║        Java Console Application                         ║
@@ -266,68 +258,13 @@ Here is how the application layout and console printouts look when executing var
   > Enter choice [0-2]:
 ```
 
-### 2. Runner Menu Layout
-```text
-  ────────────────────────────────────────────────────────────
-  RUNNER MENU — Welcome, john_runner!
-  Points: 500 pts  |  Status: VERIFIED
-  ────────────────────────────────────────────────────────────
-  [1]  View Profile & Completed Races
-  [2]  View Available Races
-  [3]  Register for a Race
-  [4]  View My Registrations
-  [5]  Add Training Log
-  [6]  View Training Dashboard
-  [7]  Edit a Training Log
-  [8]  View Forum Posts
-  [9]  Post in Forum
-  [10] Export Training Logs to CSV
-  [0]  Logout
-  ────────────────────────────────────────────────────────────
-  > Enter choice [0-10]:
-```
+---
 
-### 3. Available Races Registry View
-```text
-  ────────────────────────────────────────────────────────────
-  AVAILABLE RACES
-  ────────────────────────────────────────────────────────────
-  ID       Name                       Location     Date         Distance        Spots   Status
-  ────────────────────────────────────────────────────────────
-  RACE-104 Pune Fun Run 5K            Pune         20-07-2026   5K              200     Open
-  RACE-101 Mumbai Marathon 2026       Mumbai       30-07-2026   Full Marathon   500     Open
-  RACE-102 Delhi 10K Challenge        Delhi        14-08-2026   10K             300     Open
-  RACE-103 Bangalore Half Marathon    Bangalore    29-08-2026   Half Marathon   400     Open
-```
+## Future Enhancements (Sprint 2)
 
-### 4. Runner Training Analytics Dashboard
-```text
-  ────────────────────────────────────────────────────────────
-  TRAINING DASHBOARD
-  ────────────────────────────────────────────────────────────
-  Total Workouts    : 7
-  Total Distance    : 84.00 km
-  Average Distance  : 12.00 km
-  Best Distance Run : 15.00 km
-  Average Pace      : 5:46 min/km
-  Fastest Pace Run  : 5:11 min/km
-  ────────────────────────────────────────────────────────────
-```
-
-### 5. Admin Dashboard Menu
-```text
-  ────────────────────────────────────────────────────────────
-  ADMIN MENU — Welcome, admin!
-  ────────────────────────────────────────────────────────────
-  [1] Manage Users (Verify Accounts)
-  [2] Manage Races (Add / Edit / Deactivate)
-  [3] Moderate Forum (Approve / Reject)
-  [4] Analytics Dashboard
-  [5] Export Reports to CSV
-  [6] View Security Log
-  [7] Mark Race Completion
-  [0] Logout
-  ────────────────────────────────────────────────────────────
-  > Enter choice [0-7]:
-```
-
+- Top 3 Runners leaderboard in analytics dashboard
+- Forum Posts CSV export
+- Force cancel race with points refund to registered runners
+- Admin activity audit trail (log all admin actions)
+- Import race schedule from a text file
+- Runner-to-runner messaging via forum replies

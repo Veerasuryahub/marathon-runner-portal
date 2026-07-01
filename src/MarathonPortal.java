@@ -377,7 +377,7 @@ public class MarathonPortal {
                     logsCount++;
                 }
             }
-            if (logsCount < 5) throw new Exception("Eligibility check failed! You need $\\ge 5$ training logs in last 30 days (logged: " + logsCount + ").");
+            if (logsCount < 5) throw new Exception("Eligibility check failed! You need at least 5 training logs in last 30 days (logged: " + logsCount + ").");
 
             boolean latePenalty = race.isWithin7Days();
             if (latePenalty) {
